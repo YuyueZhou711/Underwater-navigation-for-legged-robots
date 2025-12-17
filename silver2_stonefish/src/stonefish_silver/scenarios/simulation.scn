@@ -1,0 +1,102 @@
+<?xml version="1.0"?>
+<scenario> 
+    <!-- Physical materials -->
+    <materials>
+        <!-- If Neutral < 1268.5 Then the Robot will have Neutral Buoyancy -->
+        <!-- Else If Neutral >= 1268.5 Then the Robot will have Negative Buoyancy -->
+        <!-- 如果中性浮力值小于 1268.5，则机器人将具有中性浮力 -->
+        <!-- 否则，如果中性浮力值大于或等于 1268.5，则机器人将具有负浮力 -->
+		<material name="Neutral" density="1300.0" restitution="0.1"/>
+		<material name="Rock" density="3000.0" restitution="0.8"/>
+		<material name="Fiberglass" density="1500.0" restitution="0.3"/>
+		<friction_table>
+			<friction material1="Neutral" material2="Neutral" static="0.5" dynamic="0.2"/>
+			<friction material1="Neutral" material2="Rock" static="0.2" dynamic="0.1"/>
+			<friction material1="Neutral" material2="Fiberglass" static="0.5" dynamic="0.2"/>
+			<friction material1="Rock" material2="Rock" static="0.9" dynamic="0.7"/>
+			<friction material1="Rock" material2="Fiberglass" static="0.6" dynamic="0.4"/>
+			<friction material1="Fiberglass" material2="Fiberglass" static="0.5" dynamic="0.2"/>
+		</friction_table>
+	</materials>
+    
+    <!-- Graphical materials ：只和渲染画面有关，不影响物理计算-->
+    <looks>
+        <look name="Sand" rgb="0.7 0.7 0.5" roughness="0.9" normal_map="sand_normal.png"/>
+        <look name="Silver" rgb="1.0 1.0 1.0" roughness="1.0" texture="silver_uv.png"/>
+    </looks>
+    
+    <!-- Create environment -->
+    <environment> 
+        <!-- 定义仿真的地理坐标 -->
+        <ned latitude="40.0" longitude="3.0"/>
+        <ocean>
+            <water density="1035.0" jerlov="0.2" temperature="15.0"/>
+            <waves height="0.0"/>
+            <!-- <particles enabled="true"/> -->
+            <particles enabled="false"/>
+            <!-- <current type="uniform">
+                <velocity xyz="1.0 0.0 0.0"/>
+            </current>
+            <current type="jet">
+                <center xyz="0.0 0.0 3.0"/>
+                <outlet radius="0.2"/>
+                <velocity xyz="0.0 2.0 0.0"/>
+            </current> -->
+        </ocean>
+        <atmosphere>
+            <sun azimuth="45.0" elevation="90.0"/>
+        </atmosphere>
+    </environment>
+
+    <!-- Create lights 点光源照亮场景-->
+    <light name="Omni">
+        <specs radius="0.2" illuminance="10000.0"/>
+        <color rgb="0.2 0.3 1.0"/>
+        <world_transform xyz="1.0 5.0 -10.0" rpy="0.0 0.0 0.0"/>
+    </light>
+
+    <!-- Create terrain 地形：即海底-->
+    <static name="Seabed" type="terrain">
+        <height_map filename="terrain.png"/>
+        <dimensions scalex="0.2" scaley="0.2" height="1.0"/>
+        <material name="Rock"/>
+        <look name="Sand" uv_scale="5.0"/>
+        <!-- z坐标表示海底位于水面以下2.5米处 -->
+        <world_transform xyz="0.0 0.0 2.5" rpy="0.0 0.0 0.0"/>
+    </static>
+
+    <!-- Instantiate Silver2 Robot -->
+    <!-- 
+        All parameters consider the way Stonefish builds its physics system.
+        As the volume of the robot is calculated from its geometry,
+            the other parameters have to adjust to it. 
+        所有参数的设置都考虑到了 Stonefish 构建物理系统的方式。由于机器人的体积是直接根据其几何模型（.obj 文件）计算出来的，因此其他参数必须根据这个算出来的体积进行调整。
+        For that reason, the materials applied to the objects have such
+            values to successfully achieve a slighly negative buoyant state. 
+        基于这个原因，应用于各个部件的物理材料都被赋予了特定的密度值，以成功实现略微负浮力状态
+        Moreover, all these previous considerations, which affect the weight
+            of the robot, end up being directly proportional to the torque
+            of the servomotors. Which ends up having such high values.
+        此外，所有这些影响机器人重量的前述考虑，最终都与伺服电机的扭矩成正比。因此，伺服电机的扭矩值也被设置得相对较高。
+    -->
+    <include file="$(find stonefish_silver)/scenarios/robot.scn">
+        <!-- Instantiation params -->
+        <arg name="robot_name" value="silver2"/>
+        <!-- <arg name="robot_pos" value="0.0 0.0 -0.3"/> -->
+        <arg name="robot_pos" value="0.0 0.0 -1.0"/>
+        <!-- Physics params-->
+        <arg name="body_material" value="Fiberglass"/>
+        <arg name="leg_material" value="Neutral"/>
+
+        <!-- Servomotor params（伺服电机参数） -->
+        <!-- <arg name="servo_max_torque" value="12500.0"/>
+        <arg name="servo_pos_gain" value="1.00"/>
+        <arg name="servo_max_vel" value="0.50"/> -->
+        <!-- 最大扭矩 -->
+        <arg name="servo_max_torque" value="6000.0"/>
+        <!-- 关节刚度 -->
+        <arg name="servo_pos_gain" value="0.5"/>
+        <!-- 关节转动的最快速度 rad/s -->
+        <arg name="servo_max_vel" value="0.3"/>
+    </include>
+</scenario>

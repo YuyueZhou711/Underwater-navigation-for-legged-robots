@@ -1,0 +1,17 @@
+# 1. 标准 ROS 忽略项 (build, install, log)
+build/
+install/
+log/
+
+# 2. IDE 和环境配置
+.vscode/
+venv/
+
+
+# 3. 指定忽略的文件夹
+stonefish_ros2/
+
+silver2_stonefish/media/
+silver2_stonefish/LICENSE
+silver2_stonefish/README.md
+silver2_stonefish/requirements.txt

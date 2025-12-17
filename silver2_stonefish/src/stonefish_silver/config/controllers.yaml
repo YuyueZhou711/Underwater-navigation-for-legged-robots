@@ -1,0 +1,163 @@
+# Global parameters applied to all nodes loaded from this file
+/**:
+  ros__parameters:
+    use_sim_time: true
+
+# Specific parameters for controller_manager
+controller_manager:
+  ros__parameters:
+    update_rate: 30
+    # use_sim_time: true  # <-- REMOVED/COMMENTED OUT from here
+
+    joint_state_broadcaster:
+      type: joint_state_broadcaster/JointStateBroadcaster
+
+    forward_position_controller:
+      type: forward_command_controller/ForwardCommandController
+
+    forward_velocity_controller:
+      type: forward_command_controller/ForwardCommandController
+
+    forward_effort_controller:
+      type: forward_command_controller/ForwardCommandController
+
+    joint_trajectory_position_controller:
+      type: joint_trajectory_controller/JointTrajectoryController
+
+    pid_position_controller:
+      type: position_controllers/JointGroupPositionController
+      
+
+forward_position_controller:
+  ros__parameters:
+    joints:
+      - silver2/Joint_L0_Coxa
+      - silver2/Joint_L0_Femur
+      - silver2/Joint_L0_Tibia
+      - silver2/Joint_L1_Coxa
+      - silver2/Joint_L1_Femur
+      - silver2/Joint_L1_Tibia
+      - silver2/Joint_L2_Coxa
+      - silver2/Joint_L2_Femur
+      - silver2/Joint_L2_Tibia
+      - silver2/Joint_L3_Coxa
+      - silver2/Joint_L3_Femur
+      - silver2/Joint_L3_Tibia
+      - silver2/Joint_L4_Coxa
+      - silver2/Joint_L4_Femur
+      - silver2/Joint_L4_Tibia
+      - silver2/Joint_L5_Coxa
+      - silver2/Joint_L5_Femur
+      - silver2/Joint_L5_Tibia
+
+    interface_name: position
+
+forward_velocity_controller:
+  ros__parameters:
+    joints:
+      - silver2/Joint_L0_Coxa
+      - silver2/Joint_L0_Femur
+      - silver2/Joint_L0_Tibia
+      - silver2/Joint_L1_Coxa
+      - silver2/Joint_L1_Femur
+      - silver2/Joint_L1_Tibia
+      - silver2/Joint_L2_Coxa
+      - silver2/Joint_L2_Femur
+      - silver2/Joint_L2_Tibia
+      - silver2/Joint_L3_Coxa
+      - silver2/Joint_L3_Femur
+      - silver2/Joint_L3_Tibia
+      - silver2/Joint_L4_Coxa
+      - silver2/Joint_L4_Femur
+      - silver2/Joint_L4_Tibia
+      - silver2/Joint_L5_Coxa
+      - silver2/Joint_L5_Femur
+      - silver2/Joint_L5_Tibia
+
+    interface_name: velocity
+
+forward_effort_controller:
+  ros__parameters:
+    joints:
+      - silver2/Joint_L0_Coxa
+      - silver2/Joint_L0_Femur
+      - silver2/Joint_L0_Tibia
+      - silver2/Joint_L1_Coxa
+      - silver2/Joint_L1_Femur
+      - silver2/Joint_L1_Tibia
+      - silver2/Joint_L2_Coxa
+      - silver2/Joint_L2_Femur
+      - silver2/Joint_L2_Tibia
+      - silver2/Joint_L3_Coxa
+      - silver2/Joint_L3_Femur
+      - silver2/Joint_L3_Tibia
+      - silver2/Joint_L4_Coxa
+      - silver2/Joint_L4_Femur
+      - silver2/Joint_L4_Tibia
+      - silver2/Joint_L5_Coxa
+      - silver2/Joint_L5_Femur
+      - silver2/Joint_L5_Tibia
+
+    interface_name: effort     
+
+joint_trajectory_position_controller:
+  ros__parameters:
+    joints:
+    joints:
+      - silver2/Joint_L0_Coxa
+      - silver2/Joint_L0_Femur
+      - silver2/Joint_L0_Tibia
+      - silver2/Joint_L1_Coxa
+      - silver2/Joint_L1_Femur
+      - silver2/Joint_L1_Tibia
+      - silver2/Joint_L2_Coxa
+      - silver2/Joint_L2_Femur
+      - silver2/Joint_L2_Tibia
+      - silver2/Joint_L3_Coxa
+      - silver2/Joint_L3_Femur
+      - silver2/Joint_L3_Tibia
+      - silver2/Joint_L4_Coxa
+      - silver2/Joint_L4_Femur
+      - silver2/Joint_L4_Tibia
+      - silver2/Joint_L5_Coxa
+      - silver2/Joint_L5_Femur
+      - silver2/Joint_L5_Tibia
+
+    command_interfaces:
+      - position
+
+    state_interfaces:
+      - position
+      #- velocity
+      #- effort
+
+pid_position_controller:
+  ros__parameters:
+    joints:
+      - silver2/Joint_L0_Coxa
+      - silver2/Joint_L0_Femur
+      - silver2/Joint_L0_Tibia
+      - silver2/Joint_L1_Coxa
+      - silver2/Joint_L1_Femur
+      - silver2/Joint_L1_Tibia
+      - silver2/Joint_L2_Coxa
+      - silver2/Joint_L2_Femur
+      - silver2/Joint_L2_Tibia
+      - silver2/Joint_L3_Coxa
+      - silver2/Joint_L3_Femur
+      - silver2/Joint_L3_Tibia
+      - silver2/Joint_L4_Coxa
+      - silver2/Joint_L4_Femur
+      - silver2/Joint_L4_Tibia
+      - silver2/Joint_L5_Coxa
+      - silver2/Joint_L5_Femur
+      - silver2/Joint_L5_Tibia
+
+    action_monitor_rate: 20.0 # Defaults to 20
+
+    allow_partial_joints_goal: false # Defaults to false
+    open_loop_control: true
+    allow_integration_in_goal_trajectories: true
+    constraints:
+      stopped_velocity_tolerance: 0.01 # Defaults to 0.01
+      goal_time: 0.0 # Defaults to 0.0 (start immediately)
