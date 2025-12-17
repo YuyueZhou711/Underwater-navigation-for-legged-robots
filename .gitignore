@@ -15,3 +15,6 @@ silver2_stonefish/media/
 silver2_stonefish/LICENSE
 silver2_stonefish/README.md
 silver2_stonefish/requirements.txt
+
+silver2_stonefish/scripts/__pycache__/
+*.pyc
