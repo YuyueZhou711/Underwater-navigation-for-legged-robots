@@ -18,11 +18,11 @@ def generate_launch_description():
         ]),
         launch_arguments = {
             'simulation_data' : PathJoinSubstitution([FindPackageShare('stonefish_silver'), 'data']),
-            'scenario_desc' : PathJoinSubstitution([FindPackageShare('stonefish_silver'), 'scenarios', 'simulation.scn']),
+            'scenario_desc' : PathJoinSubstitution([FindPackageShare('stonefish_silver'), 'scenarios', 'simulation_2.scn']),
             'simulation_rate' : '100.0',
-            'window_res_x' : '1200',
-            'window_res_y' : '900',
-            'rendering_quality' : 'high'
+            'window_res_x' : '1000',
+            'window_res_y' : '750',
+            'rendering_quality' : 'low'
         }.items()
     )
 

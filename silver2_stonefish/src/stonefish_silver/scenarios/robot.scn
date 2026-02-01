@@ -2,7 +2,7 @@
 <scenario>
     <!-- Robot Definition -->
     <robot name="$(arg robot_name)" fixed="false" self_collisions="false">
-        <world_transform xyz="$(arg robot_pos)" rpy="0.0 0.0 0.0"/>
+        <world_transform xyz="$(arg robot_pos)" rpy="$(arg robot_rpy)"/>
 		<!-- Main Body -->
         <base_link name="Main_Body" type="model" physics="submerged">
 			<physical>
@@ -482,31 +482,186 @@
         </actuator>
 
 		<!-- left_camera -->
-		<sensor name="stereo_left" type="camera" rate="10.0">
+		<sensor name="stereo_left" rate="10.0" type="camera">
 			<link name="Main_Body"/>
-			<origin xyz="0.174 0.196 0.056" rpy="${-pi/6} 0 0"/>
-			<specs resolution_x="320" resolution_y="240" horizontal_fov="60.0"/>
+			<origin xyz="0.174 0.25 0.0" rpy="${pi/2} 0 ${pi}"/>
+			<specs resolution_x="640" resolution_y="480" horizontal_fov="60.0"/>
 			<ros_publisher topic="/$(arg robot_name)/stereo_left/image_raw"/>
 		</sensor>
 		<!-- right_camera -->
-		<sensor name="stereo_right" type="camera" rate="10.0">
+		<sensor name="stereo_right" rate="10.0" type="camera">
 			<link name="Main_Body"/>
-			<origin xyz="-0.174 0.196 0.056" rpy="${-pi/6} 0 0"/>
-			<specs resolution_x="320" resolution_y="240" horizontal_fov="60.0"/>
+			<origin xyz="-0.174 0.25 0.0" rpy="${pi/2} 0 ${pi}"/>
+			<specs resolution_x="640" resolution_y="480" horizontal_fov="60.0"/>
 			<ros_publisher topic="/$(arg robot_name)/stereo_right/image_raw"/>
 		</sensor>
 
 		<!-- IMU sensor -->
-		<sensor name="imu" type="imu" rate="200.0">
+		<sensor name="imu" rate="100.0" type="imu">
+    		<range angular_velocity="10.0 10.0 5.0" linear_acceleration="30.0"/>
+    		<noise angle="0.0 0.0 0.0" angular_velocity="0.0" yaw_drift="0.0" linear_acceleration="0.0"/>
+    		<history samples="1"/>
+    		<origin xyz="0.174 0.25 0.0" rpy="0 0 0"/>
+    		<link name="Main_Body"/>
+			<ros_publisher topic="/$(arg robot_name)/imu"/>
+		</sensor>
+
+		<!-- Odometry sensor -->
+		<sensor name="odometry"  rate="10.0" type="odometry">
 			<link name="Main_Body"/>
 			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
-			<!-- 噪声模型 -->
-			<noise
-				accel="0.02"
-				gyro="0.001"
-				accel_bias="0.0001"
-				gyro_bias="0.00001"/>
-			<ros_publisher topic="/$(arg robot_name)/imu"/>
+			<noise position="0.0" velocity="0.0" angle="0.0" angular_velocity="0.0"/>
+			<history samples="1"/>
+			<link name="Main_Body"/>
+			<ros_publisher topic="/$(arg robot_name)/odometry"/>
+		</sensor>
+
+		<!-- 18个关节编码器		+	6个足端力矩传感器 -->
+		<!-- RI-EKF joint encoders (L0-L5) -->
+		<sensor name="enc_L0_Coxa" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L0_Coxa"/>
+			<ros_publisher topic="/silver2/encoders/L0_coxa"/>
+		</sensor>
+		<sensor name="enc_L0_Femur" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L0_Femur"/>
+			<ros_publisher topic="/silver2/encoders/L0_femur"/>
+		</sensor>
+		<sensor name="enc_L0_Tibia" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L0_Tibia"/>
+			<ros_publisher topic="/silver2/encoders/L0_tibia"/>
+		</sensor>
+
+		<sensor name="enc_L1_Coxa" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L1_Coxa"/>
+			<ros_publisher topic="/silver2/encoders/L1_coxa"/>
+		</sensor>
+		<sensor name="enc_L1_Femur" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L1_Femur"/>
+			<ros_publisher topic="/silver2/encoders/L1_femur"/>
+		</sensor>
+		<sensor name="enc_L1_Tibia" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L1_Tibia"/>
+			<ros_publisher topic="/silver2/encoders/L1_tibia"/>
+		</sensor>
+
+		<sensor name="enc_L2_Coxa" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L2_Coxa"/>
+			<ros_publisher topic="/silver2/encoders/L2_coxa"/>
+		</sensor>
+		<sensor name="enc_L2_Femur" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L2_Femur"/>
+			<ros_publisher topic="/silver2/encoders/L2_femur"/>
+		</sensor>
+		<sensor name="enc_L2_Tibia" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L2_Tibia"/>
+			<ros_publisher topic="/silver2/encoders/L2_tibia"/>
+		</sensor>
+
+		<sensor name="enc_L3_Coxa" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L3_Coxa"/>
+			<ros_publisher topic="/silver2/encoders/L3_coxa"/>
+		</sensor>
+		<sensor name="enc_L3_Femur" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L3_Femur"/>
+			<ros_publisher topic="/silver2/encoders/L3_femur"/>
+		</sensor>
+		<sensor name="enc_L3_Tibia" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L3_Tibia"/>
+			<ros_publisher topic="/silver2/encoders/L3_tibia"/>
+		</sensor>
+
+		<sensor name="enc_L4_Coxa" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L4_Coxa"/>
+			<ros_publisher topic="/silver2/encoders/L4_coxa"/>
+		</sensor>
+		<sensor name="enc_L4_Femur" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L4_Femur"/>
+			<ros_publisher topic="/silver2/encoders/L4_femur"/>
+		</sensor>
+		<sensor name="enc_L4_Tibia" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L4_Tibia"/>
+			<ros_publisher topic="/silver2/encoders/L4_tibia"/>
+		</sensor>
+
+		<sensor name="enc_L5_Coxa" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L5_Coxa"/>
+			<ros_publisher topic="/silver2/encoders/L5_coxa"/>
+		</sensor>
+		<sensor name="enc_L5_Femur" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L5_Femur"/>
+			<ros_publisher topic="/silver2/encoders/L5_femur"/>
+		</sensor>
+		<sensor name="enc_L5_Tibia" rate="10.0" type="encoder">
+			<history samples="1"/>
+			<joint name="Joint_L5_Tibia"/>
+			<ros_publisher topic="/silver2/encoders/L5_tibia"/>
+		</sensor>
+
+		<!-- RI-EKF force-torque sensors on tibia joints (contact proxy) -->
+		<sensor name="ft_L0" rate="10.0" type="forcetorque">
+			<range force="500.0 100.0 100.0" torque="1.0 1.0 2.0"/>
+			<noise force="0.01" torque="0.01"/>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<history samples="1"/>
+			<joint name="Joint_L0_Tibia"/>
+			<ros_publisher topic="/silver2/ft/L0"/>
+		</sensor>
+		<sensor name="ft_L1" rate="10.0" type="forcetorque">
+			<range force="500.0 100.0 100.0" torque="1.0 1.0 2.0"/>
+			<noise force="0.01" torque="0.01"/>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<history samples="1"/>
+			<joint name="Joint_L1_Tibia"/>
+			<ros_publisher topic="/silver2/ft/L1"/>
+		</sensor>
+		<sensor name="ft_L2" rate="10.0" type="forcetorque">
+			<range force="500.0 100.0 100.0" torque="1.0 1.0 2.0"/>
+			<noise force="0.01" torque="0.01"/>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<history samples="1"/>
+			<joint name="Joint_L2_Tibia"/>
+			<ros_publisher topic="/silver2/ft/L2"/>
+		</sensor>
+		<sensor name="ft_L3" rate="10.0" type="forcetorque">
+			<range force="500.0 100.0 100.0" torque="1.0 1.0 2.0"/>
+			<noise force="0.5" torque="0.05"/>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<history samples="1"/>
+			<joint name="Joint_L3_Tibia"/>
+			<ros_publisher topic="/silver2/ft/L3"/>
+		</sensor>
+		<sensor name="ft_L4" rate="10.0" type="forcetorque">
+			<range force="500.0 100.0 100.0" torque="1.0 1.0 2.0"/>
+			<noise force="0.01" torque="0.01"/>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<history samples="1"/>
+			<joint name="Joint_L4_Tibia"/>
+			<ros_publisher topic="/silver2/ft/L4"/>
+		</sensor>
+		<sensor name="ft_L5" rate="10.0" type="forcetorque">
+			<range force="500.0 100.0 100.0" torque="1.0 1.0 2.0"/>
+			<noise force="0.01" torque="0.01"/>
+			<origin xyz="0 0 0" rpy="0 0 0"/>
+			<history samples="1"/>
+			<joint name="Joint_L5_Tibia"/>
+			<ros_publisher topic="/silver2/ft/L5"/>
 		</sensor>
 
 		<!-- Rename publisher to "/joint_states" to mimic "ros2_control" functionality-->
@@ -514,4 +669,3 @@
         <ros_subscriber servos="/joint_command_stonefish"/>
     </robot>
 </scenario>
-

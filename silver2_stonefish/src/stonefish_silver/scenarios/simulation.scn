@@ -19,7 +19,7 @@
 		</friction_table>
 	</materials>
     
-    <!-- Graphical materials ：只和渲染画面有关，不影响物理计算-->
+    <!-- Graphical materials 画面渲染-->
     <looks>
         <look name="Sand" rgb="0.7 0.7 0.5" roughness="0.9" normal_map="sand_normal.png"/>
         <look name="Silver" rgb="1.0 1.0 1.0" roughness="1.0" texture="silver_uv.png"/>
@@ -84,6 +84,7 @@
         <arg name="robot_name" value="silver2"/>
         <!-- <arg name="robot_pos" value="0.0 0.0 -0.3"/> -->
         <arg name="robot_pos" value="0.0 0.0 -1.0"/>
+        <arg name="robot_rpy" value="0.0 0.0 0.0"/>
         <!-- Physics params-->
         <arg name="body_material" value="Fiberglass"/>
         <arg name="leg_material" value="Neutral"/>
