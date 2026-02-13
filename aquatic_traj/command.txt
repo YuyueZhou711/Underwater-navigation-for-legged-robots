@@ -1,0 +1,44 @@
+//git操作
+#初始化仓库：把当前文件夹变成一个git仓库
+git init 
+#把你当前目录下的所有修改和新文件（. 代表当前目录）都扔进“待提交名单”
+git add . 
+#把刚才“待提交名单”里的文件正式保存下来，生成一个历史版本
+git commit -m " "
+#强制把当前的主分支改名为main
+git branch -M main
+#关联远程仓库
+git remote add origin https://github.com/YuyueZhou711/test.git
+#把你本地 main 分支的代码，上传到origin的main分支
+git push -u origin main
+
+
+//显卡启动状态检查
+glxinfo | grep "OpenGL renderer"
+
+//csv转tum
+awk -F',' 'NR>1 {printf "%.9f %.6f %.6f %.6f %.6f %.6f %.6f %.6f\n", $1/1e9, $2, $3, $4, $5, $6, $7, $8}' okvis2-vio-final_trajectory.csv > 01_okvis_slam.txt
+
+//绘图:真值+okvis2轨迹
+evo_ape tum ~/datasets/svin/aquatic/04_Loop1_with_board/groundtruth/gt.tum 04_okvis.txt -va --plot --plot_mode xyz
+
+//绘制真值轨迹图
+evo_traj tum groundtruth/gt.tum --plot --plot_mode xyz
+
+//录制轨迹包
+ros2 bag record -o okvis_odometry --topics /silver2/odometry
+
+//轨迹包转tum
+evo_traj bag2 okvis_odometry/ /silver2/odometry --save_
+as_tum
+
+//键盘控制机器人
+ros2 run teleop_twist_keyboard teleop_twist_keyboard 
+
+
+
+//okvis项目build
+colcon build --cmake-args -DBUILD_ROS2=ON -DUSE_NN=OFF -DBUILD_REALSENSE=OFF --symlink-install 
+
+//topic 图像查看
+ros2 run image_view image_view --ros-args -r image:=/silver2/stereo_right/image_raw/image_color

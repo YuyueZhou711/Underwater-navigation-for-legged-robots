@@ -12,7 +12,7 @@
         <material name="Coral" density="2700.0" restitution="0.1"/>
 		<friction_table>
 			<friction material1="Neutral" material2="Neutral" static="0.5" dynamic="0.2"/>
-			<friction material1="Neutral" material2="Rock" static="0.2" dynamic="0.1"/>
+			<friction material1="Neutral" material2="Rock" static="0.5" dynamic="0.3"/>
 			<friction material1="Neutral" material2="Fiberglass" static="0.5" dynamic="0.2"/>
 			<friction material1="Rock" material2="Rock" static="0.9" dynamic="0.7"/>
 			<friction material1="Rock" material2="Fiberglass" static="0.6" dynamic="0.4"/>
@@ -205,5 +205,9 @@
 
         <!-- 关节转动的最快速度 rad/s -->
         <arg name="servo_max_vel" value="0.3"/>
+        <!--  <!-- 伺服电机原参数 -->
+        <arg name="servo_max_torque" value="12500.0"/>
+        <arg name="servo_pos_gain" value="1.00"/>
+        <arg name="servo_max_vel" value="0.50"/> -->
     </include>
 </scenario>

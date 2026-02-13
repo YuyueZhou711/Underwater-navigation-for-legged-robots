@@ -501,13 +501,14 @@
     		<range angular_velocity="10.0 10.0 5.0" linear_acceleration="30.0"/>
     		<noise angle="0.0 0.0 0.0" angular_velocity="0.0" yaw_drift="0.0" linear_acceleration="0.0"/>
     		<history samples="1"/>
-    		<origin xyz="0.174 0.25 0.0" rpy="0 0 0"/>
+    		<!-- <origin xyz="0.174 0.25 0.0" rpy="0 0 0"/> -->
+			<origin xyz="0.0 0.0 0.0" rpy="0 0 0"/>
     		<link name="Main_Body"/>
 			<ros_publisher topic="/$(arg robot_name)/imu"/>
 		</sensor>
 
 		<!-- Odometry sensor -->
-		<sensor name="odometry"  rate="10.0" type="odometry">
+		<sensor name="odometry"  rate="100.0" type="odometry">
 			<link name="Main_Body"/>
 			<origin xyz="0.0 0.0 0.0" rpy="0.0 0.0 0.0"/>
 			<noise position="0.0" velocity="0.0" angle="0.0" angular_velocity="0.0"/>
